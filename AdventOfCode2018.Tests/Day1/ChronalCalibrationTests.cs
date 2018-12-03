@@ -1,6 +1,7 @@
+using AdventOfCode2018.Day1;
 using Xunit;
 
-namespace AdventOfCode2018.Tests
+namespace AdventOfCode2018.Tests.Day1
 {
     public class ChronalCalibrationTests
     {

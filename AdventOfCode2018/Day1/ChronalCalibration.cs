@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace AdventOfCode2018
+namespace AdventOfCode2018.Day1
 {
     public class ChronalCalibration
     {
