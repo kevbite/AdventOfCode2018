@@ -6,16 +6,6 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode2018.Day4
 {
-    public class GuardSleeping
-    {
-        public int GuardId { get; set; }
-
-        public List<(int start, int end)> Times { get; set; } = new List<(int start, int end)>();
-
-
-        public int TotalMinutes() => (int)Times.Sum(x => x.end - x.start);
-
-    }
     public class GuardLog
     {
         public int GetGuardMostAsleepMin(string input)
@@ -112,12 +102,5 @@ namespace AdventOfCode2018.Day4
                     };
                 }).ToList();
         }
-    }
-
-    public class GuardLogItem
-    {
-        public int Seconds { get; set; }
-
-        public string Message { get; set; }
     }
 }
