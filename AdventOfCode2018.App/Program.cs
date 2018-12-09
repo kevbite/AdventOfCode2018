@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using AdventOfCode2018.Day1;
 using AdventOfCode2018.Day2;
 using AdventOfCode2018.Day3;
@@ -19,9 +20,26 @@ namespace AdventOfCode2018.App
             // Day4();
             // Day5();
             // Day7();
-            Day8();
+            // Day8();
+            Day9();
             Console.ReadKey();
         }
+
+        private static void Day9()
+        {
+            var day9 = new Day9.Day9();
+
+            var result1 = day9.FindHighestScore(430, 71588);
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var result2 = day9.FindHighestScore(430, 7158800);
+            stopwatch.Stop();
+
+            Console.WriteLine("Day 9 part 1 result: " + result1);
+            Console.WriteLine("Day 9 part 2 result: " + result2 + " In " + stopwatch.Elapsed.Milliseconds);
+        }
+
 
         private static void Day8()
         {
