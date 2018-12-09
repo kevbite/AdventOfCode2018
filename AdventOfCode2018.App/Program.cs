@@ -37,7 +37,7 @@ namespace AdventOfCode2018.App
             stopwatch.Stop();
 
             Console.WriteLine("Day 9 part 1 result: " + result1);
-            Console.WriteLine("Day 9 part 2 result: " + result2 + " In " + stopwatch.Elapsed.Milliseconds);
+            Console.WriteLine("Day 9 part 2 result: " + result2 + " In " + stopwatch.Elapsed.TotalMilliseconds);
         }
 
 
