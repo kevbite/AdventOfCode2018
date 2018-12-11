@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace AdventOfCode2018.Day11
 {
     public class FuelGrid
     {
-        private readonly Dictionary<int, Dictionary<int, int>> _grid;
+        private readonly SummedAreaTable _summedAreaTable;
 
         public FuelGrid(int gridSerialNumber)
         {
-            _grid = Enumerable.Range(1, 300)
-                .ToDictionary(x => x,
-                    x => Enumerable.Range(1, 300).ToDictionary(y => y, y => new FuelCell(gridSerialNumber, x, y).GetPowerLevel()));
+            var grid = Enumerable.Range(1, 300)
+                .Select(
+                    x => Enumerable.Range(1, 300).Select(y => new FuelCell(gridSerialNumber, x, y).GetPowerLevel())
+                        .ToArray()).ToArray();
+
+            _summedAreaTable = new SummedAreaTable(grid);
         }
 
         public (int x, int y, int regionSize) FindBiggestFuelCellsPosition(int minRegionSize, int maxRegionSize)
         {
-            var maxPowerLevel = ParallelEnumerable.Range(minRegionSize, maxRegionSize - minRegionSize + 1)
+            var maxPowerLevel = Enumerable.Range(minRegionSize, maxRegionSize - minRegionSize + 1)
                 .Select(x => FindBiggestFuelCellsPosition(x))
                 .OrderByDescending(x => x.powerLevel)
                 .First();
@@ -28,11 +30,14 @@ namespace AdventOfCode2018.Day11
         {
             var bigCell = new {PowerLevel = 0, RegionSize = 0, X = 0, Y = 0};
 
-            for (var x = 1; x <= 300 - regionSize - 1; x++)
+            var regionSizeOffset = regionSize - 1;
+
+            for (var x = 0; x < 300 - regionSizeOffset; x++)
             {
-                for (var y = 1; y <= 300 - regionSize - 1; y++)
+                for (var y = 0; y < 300 - regionSizeOffset; y++)
                 {
-                    var regionPowerLevel = GetRegionPowerLevel(x, y, regionSize);
+                    var regionPowerLevel =
+                        _summedAreaTable.GetRectangleSum(x, y, x + regionSizeOffset, y + regionSizeOffset);
 
                     if (regionPowerLevel > bigCell.PowerLevel)
                     {
@@ -40,32 +45,14 @@ namespace AdventOfCode2018.Day11
                         {
                             PowerLevel = regionPowerLevel,
                             RegionSize = regionSize,
-                            X = x,
-                            Y = y
+                            X = x + 1,
+                            Y = y + 1
                         };
                     }
                 }
             }
 
             return (bigCell.X, bigCell.Y, bigCell.RegionSize, bigCell.PowerLevel);
-        }
-
-        public int GetRegionPowerLevel(int xStart, int yStart, int regionSize)
-        {
-            var sum = 0;
-
-            for (var x = 0; x < regionSize; x++)
-            {
-                for (var y = 0; y < regionSize; y++)
-                {
-                    var actualX = x + xStart;
-                    var actualY = y + yStart;
-
-                    sum += _grid[actualX][actualY];
-                }
-            }
-
-            return sum;
         }
     }
 }
