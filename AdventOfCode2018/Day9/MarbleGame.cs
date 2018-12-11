@@ -19,21 +19,31 @@ namespace AdventOfCode2018.Day9
         {
             if (marble % 23 == 0)
             {
-                var sevenBefore = PreviousMarbleAfter(7);
-                _currentMarble = NextMarbleAfter(sevenBefore, 1);
-                _linkedList.Remove(sevenBefore);
-
-                player.AddScore(marble);
-                player.AddScore(sevenBefore.Value);
+                PlayScoredMove(player, marble);
             }
             else
             {
-                var linkedListNode = new LinkedListNode<int>(marble);
-                var after = NextMarbleAfter(1);
-
-                _linkedList.AddAfter(after, linkedListNode);
-                _currentMarble = linkedListNode;
+                PlayUnscoredMove(marble);
             }
+        }
+
+        private void PlayUnscoredMove(int marble)
+        {
+            var linkedListNode = new LinkedListNode<int>(marble);
+            var after = NextMarbleAfter(1);
+
+            _linkedList.AddAfter(after, linkedListNode);
+            _currentMarble = linkedListNode;
+        }
+
+        private void PlayScoredMove(Player player, int marble)
+        {
+            var sevenBefore = PreviousMarbleAfter(7);
+            _currentMarble = NextMarbleAfter(sevenBefore, 1);
+            _linkedList.Remove(sevenBefore);
+
+            player.AddScore(marble);
+            player.AddScore(sevenBefore.Value);
         }
 
         private LinkedListNode<int> NextMarbleAfter(int after)
