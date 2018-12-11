@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using AdventOfCode2018.Day1;
+using AdventOfCode2018.Day11;
 using AdventOfCode2018.Day2;
 using AdventOfCode2018.Day3;
 using AdventOfCode2018.Day4;
@@ -22,8 +23,20 @@ namespace AdventOfCode2018.App
             // Day7();
             // Day8();
             // Day9();
-            Day10();
+            // Day10();
+            Day11();
             //Console.ReadKey();
+        }
+
+        private static void Day11()
+        {
+            var fuelGrid = new FuelGrid(9995);
+
+            var result1 = fuelGrid.FindBiggestFuelCellsPosition(3, 3);
+            var result2 = fuelGrid.FindBiggestFuelCellsPosition(1, 300);
+
+            Console.WriteLine("Day 11 part 1 result: " + result1);
+            Console.WriteLine("Day 11 part 2 result: " + result2);
         }
 
         private static void Day10()
