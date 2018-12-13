@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using AdventOfCode2018.Day1;
 using AdventOfCode2018.Day11;
+using AdventOfCode2018.Day12;
 using AdventOfCode2018.Day2;
 using AdventOfCode2018.Day3;
 using AdventOfCode2018.Day4;
@@ -24,10 +26,62 @@ namespace AdventOfCode2018.App
             // Day8();
             // Day9();
             // Day10();
-            Day11();
+            // Day11();
+            Day12();
             //Console.ReadKey();
         }
 
+        private static void Day12()
+        {
+            var input = @"initial state: ##.##.#.#...#......#..#.###..##...##.#####..#..###.########.##.....#...#...##....##.#...#.###...#.##
+
+.###. => #
+###.# => #
+#..#. => #
+.#..# => #
+...## => #
+.#### => .
+.#.## => #
+#.... => .
+#..## => .
+..#.. => .
+#.##. => #
+##.#. => .
+....# => .
+#.#.. => #
+.#... => #
+.##.# => #
+..### => .
+.##.. => .
+##... => #
+###.. => #
+##..# => #
+...#. => .
+..#.# => #
+..##. => .
+#...# => .
+.#.#. => #
+##### => .
+#.#.# => .
+####. => #
+#.### => .
+..... => .
+##.## => .";
+            var initialHeatedCave = HeatedCave.Parse(input);
+
+            var part1initialHeatedCave = initialHeatedCave;
+            for (int i = 0; i < 20; i++)
+            {
+                part1initialHeatedCave = part1initialHeatedCave.Mutate();
+            }
+
+            var part2Result = new Day12.Day12(initialHeatedCave).GetPotSumFor(50000000000);
+
+
+            Console.WriteLine("Day 12 part 1 result: " + part1initialHeatedCave.SumPotIndexes());
+            Console.WriteLine("Day 12 part 2 result: " + part2Result);
+
+        }
         private static void Day11()
         {
             var fuelGrid = new FuelGrid(9995);

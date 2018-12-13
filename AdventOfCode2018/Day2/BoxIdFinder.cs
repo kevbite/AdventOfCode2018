@@ -17,7 +17,7 @@ namespace AdventOfCode2018.Day2
                 var firstId = orderedIds[i];
                 var secondId = orderedIds[i+1];
 
-                    var letters = "";
+                var letters = "";
                 for (var j = 0; j < firstId.Length; j++)
                 {
                     if (firstId[j] == secondId[j])
