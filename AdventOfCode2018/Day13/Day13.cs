@@ -7,15 +7,16 @@ namespace AdventOfCode2018.Day13
         public (int x, int y) GetFirstCrashLocation(string input)
         {
             var map = Map.Parse(input);
-
-            while (!map.GetCrashedCarts().Any())
+            var i = 0;
+            while (map.CrashedCart == null)
             {
                 map = map.Tick();
+                i++;
             }
 
-            var crashed = map.GetCrashedCarts();
+            var crashed = map.CrashedCart;
 
-            return crashed.Select(x => (x.X, x.Y)).First();
+            return (crashed.X, crashed.Y);
         }
     }
 }

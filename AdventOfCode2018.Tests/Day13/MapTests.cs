@@ -1,7 +1,9 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using AdventOfCode2018.Day13;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Xunit;
 
 namespace AdventOfCode2018.Tests.Day13
@@ -84,26 +86,79 @@ v
             });
         }
 
+
         [Fact]
-        public void ShouldReturnCrashedCarts()
+        public void ShouldReturnCrashedCarts1()
         {
+            // --><--
+            // 
+            var crashed = new Cart(2, 0, CartDirection.Right);
+            var crashedWith = new Cart(3, 0, CartDirection.Left);
             var expectedCrashed = new[]
             {
-                new Cart(1, 2, CartDirection.Down),
-                new Cart(1, 2, CartDirection.Up)
+                crashed,
+                crashedWith
             };
-            var carts = new []
+            var map = new Map(string.Join(Environment.NewLine, Enumerable.Repeat(new string(' ', 10), 10)), expectedCrashed);
+            map = map.Tick();
+
+            map.Carts.Should().BeEquivalentTo(new[] { crashedWith });
+
+            map.CrashedCart.Should().BeEquivalentTo(new Cart(3, 0, CartDirection.Right));
+
+        }
+
+        [Fact]
+        public void ShouldReturnCrashedCarts2()
+        {
+            // v
+            // |
+            // ^
+            // 
+            var crashedWith = new Cart(0, 0, CartDirection.Down);
+            var crashed = new Cart(0, 2, CartDirection.Up);
+            var expectedCrashed = new[]
             {
-                new Cart(2,2, CartDirection.Up),
-                new Cart(3,3, CartDirection.Left),
-                new Cart(4,5, CartDirection.Right),
-            }.Concat(expectedCrashed).ToImmutableArray();
+                crashedWith,
+                crashed
+            };
+            var map = new Map(string.Join(Environment.NewLine, Enumerable.Repeat(new string(' ', 10), 10)), expectedCrashed);
+            map = map.Tick();
 
-            var map = new Map("", carts);
 
-            var crashedCarts = map.GetCrashedCarts();
+            map.CrashedCart.Should().BeEquivalentTo(new Cart(0, 1, CartDirection.Up));
+            map.Carts.Should().BeEquivalentTo(new[] { new Cart(0, 1, CartDirection.Down) });
 
-            crashedCarts.Should().BeEquivalentTo(expectedCrashed);
+        }
+
+        [Fact]
+        public void ShouldReturnCrashedCarts3()
+        {
+            var track = @"|---
+|   
+|   ";
+            
+            var downCart = new Cart(0, 0, CartDirection.Down);
+            var upCart = new Cart(0, 2, CartDirection.Up);
+            var rightCart = new Cart(1, 0,CartDirection.Right);
+            var leftCart = new Cart(3, 0, CartDirection.Left);
+            var expectedCrashed = new[]
+            {
+                upCart, leftCart, rightCart, downCart
+            };
+            var map = new Map(string.Join(Environment.NewLine, Enumerable.Repeat(new string(' ', 10), 10)), expectedCrashed);
+            map = map.Tick();
+
+            using (new AssertionScope())
+            {
+                map.CrashedCart.Should().BeEquivalentTo(leftCart.Move(track));
+                map.Carts.Should().BeEquivalentTo(new[]
+                {
+                    downCart.Move(track),
+                    rightCart.Move(track),
+                    upCart
+                });
+            }
         }
 
         [Fact]
@@ -112,16 +167,16 @@ v
             var carts = new[]
             {
                 new Cart(0, 0, CartDirection.Right),
-                new Cart(1, 0, CartDirection.Right)
+                new Cart(2, 0, CartDirection.Right)
             };
-            var map = new Map("--", carts);
+            var map = new Map("----", carts);
 
             map = map.Tick();
 
             map.Carts.Should().BeEquivalentTo(new[]
             {
                 new Cart(1, 0, CartDirection.Right),
-                new Cart(2, 0, CartDirection.Right)
+                new Cart(3, 0, CartDirection.Right)
             });
         }
     }

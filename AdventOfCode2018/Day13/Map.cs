@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace AdventOfCode2018.Day13
@@ -9,7 +10,14 @@ namespace AdventOfCode2018.Day13
     public class Map
     {
         public Map(string tracks, IReadOnlyCollection<Cart> carts)
+        : this(tracks, carts, null)
         {
+
+        }
+
+        public Map(string tracks, IReadOnlyCollection<Cart> carts, Cart crashedCart)
+        {
+            CrashedCart = crashedCart;
             Tracks = tracks;
             Carts = carts;
         }
@@ -61,20 +69,37 @@ namespace AdventOfCode2018.Day13
 
         public IReadOnlyCollection<Cart> Carts { get; }
 
-        public IReadOnlyCollection<Cart> GetCrashedCarts()
-        {
-            return Carts.GroupBy(cart => (cart.X, cart.Y))
-                .Where(x => x.Count() > 1)
-                .SelectMany(x => x)
-                .ToImmutableArray();
-        }
+        public Cart CrashedCart { get; }
 
         public Map Tick()
         {
-            var movedCarts = Carts.Select(x => x.Move(Tracks))
-                .ToImmutableArray();
+            Cart crashed = null;
+            var movedCarts = new List<Cart>();
+            var usedCarts = new List<Cart>();
 
-            return new Map(Tracks, movedCarts);
+            var cartsInOrder = Carts.GroupBy(x => x.Y)
+                .OrderBy(x => x.Key)
+                .SelectMany(grouping => grouping.OrderBy(cart => cart.X))
+                .ToArray();
+
+            for (var i = 0; i < cartsInOrder.Length; i++)
+            {
+                var cart = cartsInOrder[i];
+                usedCarts.Add(cart);
+                var movedCart = cart.Move(Tracks);
+
+                if (Carts.Except(usedCarts).Concat(movedCarts).Any(x => x.X == movedCart.X && x.Y == movedCart.Y))
+                {
+                    crashed = movedCart;
+
+                    movedCarts.AddRange(cartsInOrder.Skip(i + 1));
+                    break;
+                }
+
+                movedCarts.Add(movedCart);
+            }
+
+            return new Map(Tracks, movedCarts, crashed);
         }
     }
 }
