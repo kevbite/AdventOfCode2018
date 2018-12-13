@@ -43,14 +43,14 @@ namespace AdventOfCode2018.Day3
                     .Select(y => y()).ToArray())
                 .ToArray();
 
-            foreach (var tuple in parsed)
+            foreach (var (id, point, size) in parsed)
             {
-                for (int x = 0; x < tuple.size.Width; x++)
+                for (int x = 0; x < size.Width; x++)
                 {
-                    for (int y = 0; y < tuple.size.Height; y++)
+                    for (int y = 0; y < size.Height; y++)
                     {
-                        array[x + tuple.point.X][y + tuple.point.Y]
-                            .Add(tuple.id);
+                        array[x + point.X][y + point.Y]
+                            .Add(id);
                     }
                 }
             }
