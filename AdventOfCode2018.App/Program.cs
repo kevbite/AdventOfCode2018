@@ -189,7 +189,9 @@ namespace AdventOfCode2018.App
 
             var day13 = new Day13.Day13();
             var firstCrashLocation = day13.GetFirstCrashLocation(input);
+            var lastNoneCrashedCart = day13.GetFindLastNoneCrashedCart(input);
             Console.WriteLine("Day 13 part 1 result: " + firstCrashLocation);
+            Console.WriteLine("Day 13 part 2 result: " + lastNoneCrashedCart);
         }
 
         private static void Day12()

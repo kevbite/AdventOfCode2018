@@ -73,9 +73,8 @@ namespace AdventOfCode2018.Day13
 
         public Map Tick()
         {
-            Cart crashed = null;
+            var crashes = new List<Cart>();
             var movedCarts = new List<Cart>();
-            var usedCarts = new List<Cart>();
 
             var cartsInOrder = Carts.GroupBy(x => x.Y)
                 .OrderBy(x => x.Key)
@@ -85,21 +84,33 @@ namespace AdventOfCode2018.Day13
             for (var i = 0; i < cartsInOrder.Length; i++)
             {
                 var cart = cartsInOrder[i];
-                usedCarts.Add(cart);
-                var movedCart = cart.Move(Tracks);
 
-                if (Carts.Except(usedCarts).Concat(movedCarts).Any(x => x.X == movedCart.X && x.Y == movedCart.Y))
+                if (crashes.Contains(cart))
                 {
-                    crashed = movedCart;
-
-                    movedCarts.AddRange(cartsInOrder.Skip(i + 1));
-                    break;
+                    continue;
                 }
 
-                movedCarts.Add(movedCart);
+                var movedCart = cart.Move(Tracks);
+
+                var possibleCrashes = cartsInOrder.Skip(i+1).Concat(movedCarts).Where(x => x.X == movedCart.X && x.Y == movedCart.Y)
+                    .ToList();
+                if (possibleCrashes.Any())
+                {
+                    crashes.Add(movedCart);
+                    crashes.AddRange(possibleCrashes);
+                }
+                else
+                {
+                    movedCarts.Add(movedCart);
+                }
             }
 
-            return new Map(Tracks, movedCarts, crashed);
+            foreach (var crash in crashes)
+            {
+                movedCarts.Remove(crash);
+            }
+
+            return new Map(Tracks, movedCarts, crashes.FirstOrDefault());
         }
     }
 }

@@ -102,7 +102,7 @@ v
             var map = new Map(string.Join(Environment.NewLine, Enumerable.Repeat(new string(' ', 10), 10)), expectedCrashed);
             map = map.Tick();
 
-            map.Carts.Should().BeEquivalentTo(new[] { crashedWith });
+            map.Carts.Should().BeEmpty();
 
             map.CrashedCart.Should().BeEquivalentTo(new Cart(3, 0, CartDirection.Right));
 
@@ -127,13 +127,16 @@ v
 
 
             map.CrashedCart.Should().BeEquivalentTo(new Cart(0, 1, CartDirection.Up));
-            map.Carts.Should().BeEquivalentTo(new[] { new Cart(0, 1, CartDirection.Down) });
+            map.Carts.Should().BeEmpty();
 
         }
 
         [Fact]
         public void ShouldReturnCrashedCarts3()
         {
+            //v>-<
+            //|
+            //^
             var track = @"|---
 |   
 |   ";
@@ -152,12 +155,7 @@ v
             using (new AssertionScope())
             {
                 map.CrashedCart.Should().BeEquivalentTo(leftCart.Move(track));
-                map.Carts.Should().BeEquivalentTo(new[]
-                {
-                    downCart.Move(track),
-                    rightCart.Move(track),
-                    upCart
-                });
+                map.Carts.Should().BeEmpty();
             }
         }
 

@@ -37,6 +37,23 @@ v
 
             firstCrashLocation.Should().Be((7, 3));
         }
+
+        [Fact]
+        public void ShouldFindLastNoneCrashedCart()
+        {
+            var input = @"/>-<\  
+|   |  
+| /<+-\
+| | | v
+\>+</ |
+  |   ^
+  \<->/";
+
+            var lastNoneCrashedCart = new AdventOfCode2018.Day13.Day13().GetFindLastNoneCrashedCart(input);
+
+            lastNoneCrashedCart.Should().Be((6,4));
+
+        }
     }
 }
 
