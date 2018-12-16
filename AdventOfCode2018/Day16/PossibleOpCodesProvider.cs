@@ -3,19 +3,19 @@ using System.Linq;
 
 namespace AdventOfCode2018.Day16
 {
-    public class Day16
+    public class PossibleOpCodesProvider
     {
-        public string[] GetPossibleOpCodes(int[] before, string instructions, int[] after)
+        public virtual string[] GetPossibleOpCodes(Sample sample)
         {
             var possibleOpCodes = new List<string>();
             
-            foreach (var operation in Operations.AllOperations)
+            foreach (var operation in OperationsFactory.AllOperations)
             {
-                var currentRegister = before.ToArray();
-                var currentInstructions = Instructions.Build(instructions, currentRegister);
+                var currentRegister = sample.Before.ToArray();
+                var currentInstructions = Instructions.Build(sample.Instructions, currentRegister);
                 operation.Apply(currentInstructions);
 
-                if (currentRegister.SequenceEqual(after))
+                if (currentRegister.SequenceEqual(sample.After))
                 {
                     possibleOpCodes.Add(operation.OpCode);
                 }

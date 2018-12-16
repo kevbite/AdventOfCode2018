@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace AdventOfCode2018.Day16
 {
-    public class Puzzle
+    public class Sample
     {
-        public Puzzle(int[] before, string instructions, int[] after)
+        public Sample(int[] before, string instructions, int[] after)
         {
             Before = before;
             Instructions = instructions;
@@ -19,7 +19,7 @@ namespace AdventOfCode2018.Day16
 
         public int[] After { get; }
 
-        public static Puzzle ReadNext(TextReader textReader)
+        public static Sample ReadNext(TextReader textReader)
         {
             int[] ParseArray(string input)
             {
@@ -39,7 +39,7 @@ namespace AdventOfCode2018.Day16
                 return null;
             }
 
-            return new Puzzle(ParseArray(beforeLine), instructionsLine, ParseArray(afterLine));
+            return new Sample(ParseArray(beforeLine), instructionsLine, ParseArray(afterLine));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace AdventOfCode2018.Tests.Day16
 After:  [3, 2, 2, 1]
 ";
 
-            var puzzle = Puzzle.ReadNext(new StringReader(input));
+            var puzzle = Sample.ReadNext(new StringReader(input));
 
             puzzle.Should().BeEquivalentTo(
                 new
@@ -39,8 +39,8 @@ After:  [0, 2, 2, 3]
 
             var textReader = new StringReader(input);
 
-            var puzzle1 = Puzzle.ReadNext(textReader);
-            var puzzle2 = Puzzle.ReadNext(textReader);
+            var puzzle1 = Sample.ReadNext(textReader);
+            var puzzle2 = Sample.ReadNext(textReader);
 
             puzzle1.Should().BeEquivalentTo(
                 new
@@ -62,7 +62,7 @@ After:  [0, 2, 2, 3]
         [Fact]
         public void ShouldReturnNullOnNoPuzzle()
         {
-            Puzzle.ReadNext(new StringReader(""))
+            Sample.ReadNext(new StringReader(""))
                 .Should().BeNull();
         }
     }
