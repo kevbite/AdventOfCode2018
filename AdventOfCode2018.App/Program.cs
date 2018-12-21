@@ -92,7 +92,7 @@ namespace AdventOfCode2018.App
 |.||.|...|...|##..||....|#.|..#..##....|#.#|##..|.";
             var day18 = new Day18.Day18();
             var result1 = day18.GetResourceValueAfter(10, input);
-            var result2 = day18.GetResourceValueAfter(1000000000, input);
+            var result2 = day18.GetResourceValueAfterWithPrediction(1000000000, input);
 
             Console.WriteLine("Day 18 part 1 result: " + result1);
             Console.WriteLine("Day 18 part 2 result: " + result2);

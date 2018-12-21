@@ -25,5 +25,27 @@ namespace AdventOfCode2018.Tests.Day18
 
             resourceValue.Should().Be(1147);
         }
+
+        [Fact]
+        public void ShouldReturnCorrectPrediction()
+        {
+            var input = @".#.#...|#.
+.....#|##|
+.|..|...#.
+..|#.....#
+#.#|||#|#|
+...#.||...
+.|....|...
+||...#|.#|
+|.||||..|.
+...#.|..|.";
+
+            var day18 = new AdventOfCode2018.Day18.Day18();
+
+            var expected = day18.GetResourceValueAfter(500, input);
+            var actual = day18.GetResourceValueAfterWithPrediction(500, input);
+
+            actual.Should().Be(expected);
+        }
     }
 }
